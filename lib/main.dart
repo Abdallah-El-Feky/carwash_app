@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:carwash/connectionStatus.dart';
@@ -63,18 +62,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
-      print('object1');
-      print(response.statusCode);
-      print(response.body);
-      print('object2');
+      // print('object1');
+      // print(response.statusCode);
+       print(response.body);
+      // print('object2');
       var statusdata = response.body;
 
       setState(() {
         data = statusdata;
       });
-      print('test1');
-      print(data);
-      print('test2');
+      // print('test1');
+      // print(data);
+      // print('test2');
     }
     //   if (preferences.getString("randomtime") != null) {
     //   if (preferences.getString("randomtime") == "true") {
@@ -150,10 +149,10 @@ class _MyHomePageState extends State<MyHomePage> {
           var id = (Platform.isAndroid)
               ? contextMenuItemClicked.androidId
               : contextMenuItemClicked.iosId;
-          print("onContextMenuActionItemClicked: " +
-              id.toString() +
-              " " +
-              contextMenuItemClicked.title);
+          // print("onContextMenuActionItemClicked: " +
+          //     id.toString() +
+          //     " " +
+          //     contextMenuItemClicked.title);
         });
 
     pullToRefreshController = PullToRefreshController(
@@ -191,9 +190,9 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_permissionGranted == PermissionStatus.granted) {
         _main = true;
         location.onLocationChanged.listen((LocationData currentLocation) {
-          print(currentLocation.latitude.toString() +
-              " " +
-              currentLocation.longitude.toString());
+          // print(currentLocation.latitude.toString() +
+          //     " " +
+          //     currentLocation.longitude.toString());
         });
       } else {
         _permissionGranted = await location.requestPermission();
@@ -235,11 +234,11 @@ class _MyHomePageState extends State<MyHomePage> {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         connectionStatus = true;
-        print("connected $connectionStatus");
+       // print("connected $connectionStatus");
       }
     } on SocketException catch (_) {
       connectionStatus = false;
-      print("not connected $connectionStatus");
+      //print("not connected $connectionStatus");
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (_) => ConnectionStatus()),
@@ -382,7 +381,7 @@ class notificationWidget {
       _notifications.show(id, title, body, await notificationDetails());
 
   static notificationDetails() async {
-    return NotificationDetails(
+    return const NotificationDetails(
         android: AndroidNotificationDetails('channel id', 'channel name',
             importance: Importance.max),
         iOS: IOSNotificationDetails());
