@@ -17,6 +17,7 @@ Future main() async {
       await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
   SecurityContext.defaultContext
       .setTrustedCertificatesBytes(data.buffer.asUint8List());
+  //await Permission.storage.request();
 
   if (Platform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
@@ -64,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (response.statusCode == 200) {
       // print('object1');
       // print(response.statusCode);
-       print(response.body);
+      print(response.body);
       // print('object2');
       var statusdata = response.body;
 
@@ -94,8 +95,14 @@ class _MyHomePageState extends State<MyHomePage> {
   var connectionStatus;
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+
       crossPlatform: InAppWebViewOptions(
+
+          clearCache: false,
+          javaScriptEnabled: true,
+          useOnLoadResource: true,
           cacheEnabled: true,
+          supportZoom: false,
           preferredContentMode: UserPreferredContentMode.MOBILE,
           useShouldOverrideUrlLoading: true,
           mediaPlaybackRequiresUserGesture: false),
@@ -104,8 +111,14 @@ class _MyHomePageState extends State<MyHomePage> {
         useHybridComposition: true,
       ),
       ios: IOSInAppWebViewOptions(
+        sharedCookiesEnabled: true,
         allowsInlineMediaPlayback: true,
+
+
       ));
+
+  // ignore: non_constant_identifier_names
+  late Future<void> WKwebview;
 
   late PullToRefreshController pullToRefreshController;
   late ContextMenu contextMenu;
@@ -178,7 +191,19 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     super.dispose();
   }
-
+Future<void> setHttpAuthCredential(
+    {required URLProtectionSpace protectionSpace,
+    required URLCredential credential}) async {
+  Map<String, dynamic> args = <String, dynamic>{};
+  args.putIfAbsent("host", () => protectionSpace.host);
+  args.putIfAbsent("protocol", () => protectionSpace.protocol);
+  args.putIfAbsent("realm", () => protectionSpace.realm);
+  args.putIfAbsent("port", () => protectionSpace.port);
+  args.putIfAbsent("username", () => credential.username);
+  args.putIfAbsent("password", () => credential.password);
+  var _channel;
+  await _channel.invokeMethod('setHttpAuthCredential', args);
+}
   Future<void> checkLocationServicesInDevice() async {
     Location location = new Location();
 
@@ -234,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         connectionStatus = true;
-       // print("connected $connectionStatus");
+        // print("connected $connectionStatus");
       }
     } on SocketException catch (_) {
       connectionStatus = false;
