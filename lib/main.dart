@@ -10,8 +10,11 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:location/location.dart';
 
+
+
 //void main() => runApp(const MaterialApp(home: MyHomePage()));
 Future main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   ByteData data =
       await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
@@ -42,9 +45,18 @@ Future main() async {
   }
 
   runApp(const MaterialApp(
-    home: MyHomePage(),
+
+    home: MyHomePage(
+
+
+    ),
+
+
     debugShowCheckedModeBanner: false,
-  ));
+  )
+
+
+  );
 }
 
 class MyHomePage extends StatefulWidget {
@@ -59,6 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String data = "";
 
   Future readData() async {
+
+
     var uri = "https://carwashapp.online/datanotify.php";
 
     var response = await http.get(Uri.parse(uri));
@@ -105,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
           supportZoom: false,
           preferredContentMode: UserPreferredContentMode.MOBILE,
           useShouldOverrideUrlLoading: true,
+
           mediaPlaybackRequiresUserGesture: false),
       android: AndroidInAppWebViewOptions(
         cacheMode: AndroidCacheMode.LOAD_CACHE_ELSE_NETWORK,
@@ -117,8 +132,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
       ));
 
-  // ignore: non_constant_identifier_names
+  CookieManager cookieManager = CookieManager.instance(
+
+  );
+
+
+
+
+
   late Future<void> WKwebview;
+
 
   late PullToRefreshController pullToRefreshController;
   late ContextMenu contextMenu;
@@ -207,6 +230,7 @@ Future<void> setHttpAuthCredential(
   Future<void> checkLocationServicesInDevice() async {
     Location location = new Location();
 
+
     _serviceEnabled = await location.serviceEnabled();
 
     if (_serviceEnabled) {
@@ -271,6 +295,8 @@ Future<void> setHttpAuthCredential(
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -286,7 +312,9 @@ Future<void> setHttpAuthCredential(
                 resizeToAvoidBottomInset: true,
                 body: SafeArea(
                     child: Column(children: <Widget>[
+
                   Expanded(
+
                     child: Stack(
                       children: [
                         InAppWebView(

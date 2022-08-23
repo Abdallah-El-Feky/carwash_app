@@ -1,0 +1,4 @@
+storePassword=elfeky1196
+keyPassword=elfeky1196
+keyAlias=car-keystore
+storeFile=/Users/macbook2018/car-keystore.jks
